@@ -383,8 +383,14 @@ namespace Plugin.NFC
 			NdefRecord ndefRecord = null;
 			switch (record.TypeFormat)
 			{
+
 				case NFCNdefTypeFormat.WellKnown:
-					ndefRecord = NdefRecord.CreateTextRecord(Locale.Default.ToLanguageTag(), Encoding.UTF8.GetString(record.Payload));
+					var languageCode = record.LanguageCode;
+					if (string.IsNullOrWhiteSpace(languageCode)) languageCode = Configuration.DefaultLanguageCode;
+					if(languageCode.Length>5) languageCode = languageCode.Substring(0, 5);	//max support 5 chars like en-US or de-AT
+					ndefRecord = NdefRecord.CreateTextRecord(languageCode, Encoding.UTF8.GetString(record.Payload));
+					//no need to force it to 2 letters only
+					//ndefRecord = NdefRecord.CreateTextRecord(languageCode.Substring(0, 2), Encoding.UTF8.GetString(record.Payload));
 					break;
 				case NFCNdefTypeFormat.Mime:        
 					ndefRecord = NdefRecord.CreateMime(record.MimeType, record.Payload);            

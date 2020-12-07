@@ -80,6 +80,12 @@
 		/// String formatted payload
 		/// </summary>
 		public string Message => NFCUtils.GetMessage(TypeFormat, Payload, Uri);
+		/// <summary>
+		/// Enhancement to pass language codes (locale) like "en" "de-At" for publication
+		/// Two letters ISO 639-1 Language Code (ex: en, fr, de...)
+		/// </summary>			/// </summary>
+		/// <remarks>Added by ManniAT as possible solution</remarks>			
+		public string LanguageCode { get; set; }
 	}
 
 	/// <summary>
